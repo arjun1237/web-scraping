@@ -1,11 +1,20 @@
 const request = require('request')
-const cheerio = require('cheerio')
+const cheerio = require('cheerio');
+const { scraperValidation } = require('../utils/validation/scraper.validation');
 
 const scrapeData = async (req, res) => {
-    let { url } = req.body
-    if(url === undefined){
-        return res.status(400).json({error: true, message: "url in request body not defined."})
+
+    // validation
+    const { error } = scraperValidation(req.body);
+    if (error) {
+        return res.status(400).json({
+            error: true,
+            message: error.details[0].message,
+        });
     }
+
+    // scraper logic
+    let { url } = req.body
     request(url, (err, response, html) => {
         if(!err && response.statusCode === 200){
             const $ = cheerio.load(html)
