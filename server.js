@@ -1,11 +1,19 @@
 const express = require('express')
 const app = express()
 const scraperRouter = require('./resources/router/scraper.router')
-const PORT = process.env.PORT || 5050
 app.use(express.json())
 
 app.use('/scraper', scraperRouter)
+const dotenv = require("dotenv");
 
-app.listen(PORT, () => {
-  console.log(`listening to port ${PORT}`);
-});
+dotenv.config();
+
+const PORT = process.env.PORT || 5050;
+
+const start = async () => {
+    app.listen(PORT, () => {
+        console.log(`listening to port ${PORT}`)
+    })
+}
+
+start()
