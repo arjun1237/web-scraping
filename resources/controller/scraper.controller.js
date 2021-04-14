@@ -11,11 +11,13 @@ const scrapeData = async (req, res) => {
         if(!err && response.statusCode === 200){
             const $ = cheerio.load(html)
 
-            const title = $('title').text()
-            let image = $('img').attr('src')
-            let content = $("meta[name='description']")[0].attribs.content
-            let site_name = $("meta[property='og:site_name']")[0].attribs.content
-            let icons = []
+            const title = $("meta[property='og:title']")[0].attribs.content
+            const image = $("meta[property='og:image']")[0].attribs.content
+            const description = $("meta[property='og:description']")[0].attribs.content
+            const site_name = $("meta[property='og:site_name']")[0].attribs.content
+            const type = $("meta[property='og:type']")[0].attribs.content
+            const url_name = $("meta[property='og:url']")[0].attribs.content
+            const icons = []
 
             $("link").each(function (index, element) {
                 let rel = $(element).attr('rel')
@@ -25,12 +27,14 @@ const scrapeData = async (req, res) => {
             });
             let icon = icons[0]
 
-            let data = {
+            const data = {
                 site_name,
                 icon,
                 title, 
-                content,
-                image
+                description,
+                image,
+                type,
+                url: url_name
             }
 
             res.json({error: false, data})
