@@ -1,4 +1,3 @@
-const Scraper = require('../model/scrapper.model')
 const request = require('request')
 const cheerio = require('cheerio')
 
