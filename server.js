@@ -1,9 +1,10 @@
 const express = require('express')
 const app = express()
 const scraperRouter = require('./resources/router/scraper.router')
-const dotenv = require("dotenv");
-
 app.use(express.json())
+
+app.use('/scraper', scraperRouter)
+const dotenv = require("dotenv");
 
 dotenv.config();
 
@@ -16,5 +17,3 @@ const start = async () => {
 }
 
 start()
-
-app.use('/scraper', scraperRouter)
